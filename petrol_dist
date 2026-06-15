@@ -1,0 +1,18 @@
+class Solution:
+    def tour(self, petrol, distance):
+        start = 0
+        balance = 0
+        deficit = 0
+
+        for i in range(len(petrol)):
+            balance += petrol[i] - distance[i]
+
+            if balance < 0:
+                deficit += balance
+                start = i + 1
+                balance = 0
+
+        if balance + deficit >= 0:
+            return start
+
+        return -1
