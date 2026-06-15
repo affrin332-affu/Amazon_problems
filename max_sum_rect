@@ -1,0 +1,27 @@
+class Solution:
+    def maximumSumRectangle(self, R, C, M):
+
+        def kadane(arr):
+            curr = arr[0]
+            best = arr[0]
+
+            for i in range(1, len(arr)):
+                curr = max(arr[i], curr + arr[i])
+                best = max(best, curr)
+
+            return best
+
+        ans = -10**18
+
+        for top in range(R):
+
+            temp = [0] * C
+
+            for bottom in range(top, R):
+
+                for col in range(C):
+                    temp[col] += M[bottom][col]
+
+                ans = max(ans, kadane(temp))
+
+        return ans
