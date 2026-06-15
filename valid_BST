@@ -1,0 +1,51 @@
+from collections import deque
+
+class Node:
+    def __init__(self, data):
+        self.data = int(data)
+        self.left = None
+        self.right = None
+
+def build_tree(s):
+    if not s or s[0] == "N":
+        return None
+
+    root = Node(s[0])
+    q = deque([root])
+
+    i = 1
+    while q and i < len(s):
+        curr = q.popleft()
+
+        if i < len(s) and s[i] != "N":
+            curr.left = Node(s[i])
+            q.append(curr.left)
+        i += 1
+
+        if i < len(s) and s[i] != "N":
+            curr.right = Node(s[i])
+            q.append(curr.right)
+        i += 1
+
+    return root
+
+def isBST(root):
+    def check(node, low, high):
+        if node is None:
+            return True
+
+        if node.data <= low or node.data >= high:
+            return False
+
+        return (
+            check(node.left, low, node.data)
+            and
+            check(node.right, node.data, high)
+        )
+
+    return check(root, float("-inf"), float("inf"))
+
+arr = input().split()
+root = build_tree(arr)
+
+print(1 if isBST(root) else 0)
